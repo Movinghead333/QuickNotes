@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private NoteListAdapter noteListAdapter;
     private RecyclerView.LayoutManager noteRecyclerViewLayoutManager;
     private final int REQUEST_CODE_ADD_NOTE_ACTIVITY = 1;
+    public static final String SEND_TITLE_TO_SHOW_NOTE_ACTIVITY = "SEND_TITLE_TO_SHOW_NOTE_ACTIVITY";
+    public static final String SEND_DESCRIPTION_TO_SHOW_NOTE_ACTIVITY = "SEND_DESCRIPTION_TO_SHOW_NOTE_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,16 @@ public class MainActivity extends AppCompatActivity {
         noteRecyclerView = (RecyclerView)findViewById(R.id.notes_recyclerview);
         //recipeRecyclerView.setHasFixedSize(true);
 
-        noteListAdapter = new NoteListAdapter();
+        noteListAdapter = new NoteListAdapter(new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Note currentNote = noteViewModel.getAllNotes().getValue().get(position);
+                Intent intent = new Intent(MainActivity.this, ShowNoteActivity.class);
+                intent.putExtra(SEND_TITLE_TO_SHOW_NOTE_ACTIVITY, currentNote.noteTitle);
+                intent.putExtra(SEND_DESCRIPTION_TO_SHOW_NOTE_ACTIVITY, currentNote.description);
+                startActivity(intent);
+            }
+        });
         noteRecyclerView.setAdapter(noteListAdapter);
 
         noteRecyclerViewLayoutManager = new LinearLayoutManager(this);
@@ -64,13 +76,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: startactivity with result
-
                 Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_ADD_NOTE_ACTIVITY);
-
-                //TODO: insert result from AddNoteActivity into database
-                //noteViewModel.insertNote(new Note("note 2", "desc"));
             }
         });
     }

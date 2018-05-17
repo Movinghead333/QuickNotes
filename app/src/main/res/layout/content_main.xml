@@ -10,21 +10,22 @@
 
     <TextView
         android:id="@+id/notes"
-        android:layout_width="wrap_content"
+        style="@style/title_style"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
         android:text="Notes"
-        android:textSize="24sp"
+        android:textColor="@color/whitetext"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/notes_recyclerview"
-        android:layout_width="370dp"
-        android:layout_height="468dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
