@@ -52,12 +52,14 @@ import android.support.annotation.NonNull;
 
             @Override
             protected Void doInBackground(final Void... params){
+                /*
                 noteDao.clearNotes();
 
                 Note note = new Note("ÜB", "ingenieurmathematik");
                 noteDao.insertNote(note);
                 note = new Note("note x", "description");
                 noteDao.insertNote(note);
+                */
                 return null;
             }
         }

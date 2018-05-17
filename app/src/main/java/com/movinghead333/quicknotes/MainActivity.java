@@ -13,8 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
@@ -25,9 +23,16 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView noteRecyclerView;
     private NoteListAdapter noteListAdapter;
     private RecyclerView.LayoutManager noteRecyclerViewLayoutManager;
+    private Note currentNote;
     private final int REQUEST_CODE_ADD_NOTE_ACTIVITY = 1;
+    private final int REQUEST_CODE_SHOW_NOTE_ACTIVITY= 2;
     public static final String SEND_TITLE_TO_SHOW_NOTE_ACTIVITY = "SEND_TITLE_TO_SHOW_NOTE_ACTIVITY";
     public static final String SEND_DESCRIPTION_TO_SHOW_NOTE_ACTIVITY = "SEND_DESCRIPTION_TO_SHOW_NOTE_ACTIVITY";
+    public static final String SEND_TITLE_TO_ADD_NOTE_ACTIVITY = "SEND_TITLE_TO_ADD_NOTE_ACTIVITY";
+    public static final String SEND_DESCRIPTION_TO_ADD_NOTE_ACTIVTY = "SEND_DESCRIPTION_TO_ADD_NOTE_ACTIVTY";
+    public static final String SEND_IS_EDIT_TO_ADD_NOTE_ACTIVTY = "SEND_IS_EDIT_TO_ADD_NOTE_ACTIVTY";
+
+    private long currentNoteId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
         noteListAdapter = new NoteListAdapter(new CustomItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Note currentNote = noteViewModel.getAllNotes().getValue().get(position);
+                currentNote = noteViewModel.getAllNotes().getValue().get(position);
+                currentNoteId = currentNote.id;
                 Intent intent = new Intent(MainActivity.this, ShowNoteActivity.class);
                 intent.putExtra(SEND_TITLE_TO_SHOW_NOTE_ACTIVITY, currentNote.noteTitle);
                 intent.putExtra(SEND_DESCRIPTION_TO_SHOW_NOTE_ACTIVITY, currentNote.description);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_SHOW_NOTE_ACTIVITY);
             }
         });
         noteRecyclerView.setAdapter(noteListAdapter);
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
+                intent.putExtra(SEND_IS_EDIT_TO_ADD_NOTE_ACTIVTY, false);
                 startActivityForResult(intent, REQUEST_CODE_ADD_NOTE_ACTIVITY);
             }
         });
@@ -92,9 +99,21 @@ public class MainActivity extends AppCompatActivity {
             }else if(resultCode == Activity.RESULT_CANCELED){
 
             }
+        }else if(requestCode == REQUEST_CODE_SHOW_NOTE_ACTIVITY){
+            if(resultCode == Activity.RESULT_OK){
+                noteViewModel.deleteNoteById(currentNoteId);
+                Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
+                intent.putExtra(SEND_IS_EDIT_TO_ADD_NOTE_ACTIVTY, true);
+                intent.putExtra(SEND_TITLE_TO_ADD_NOTE_ACTIVITY,currentNote.noteTitle);
+                intent.putExtra(SEND_DESCRIPTION_TO_ADD_NOTE_ACTIVTY,currentNote.description);
+                startActivityForResult(intent, REQUEST_CODE_ADD_NOTE_ACTIVITY);
+            }else if(resultCode == Activity.RESULT_FIRST_USER){
+                noteViewModel.deleteNoteById(currentNoteId);
+            }
         }
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -116,4 +135,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }

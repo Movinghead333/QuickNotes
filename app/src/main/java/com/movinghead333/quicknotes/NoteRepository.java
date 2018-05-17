@@ -26,6 +26,14 @@ public class NoteRepository {
         return noteDao.getNoteByTitle(title);
     }
 
+    public Note getNoteById(long id){
+        return noteDao.getNoteById(id);
+    }
+
+    public void deleteNoteById(long id){
+        new deleteAsyncTaskDao(noteDao).execute(id);
+    }
+
     public void insertNote(Note note){
         new insertAsyncTaskDao(noteDao).execute(note);
     }
@@ -41,6 +49,21 @@ public class NoteRepository {
         @Override
         protected Void doInBackground(final Note... params){
             mAsyncTaskDao.insertNote(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTaskDao extends AsyncTask<Long, Void, Void> {
+
+        private NoteDao mAsyncTaskDao;
+
+        deleteAsyncTaskDao(NoteDao dao){
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Long... params){
+            mAsyncTaskDao.delete(params[0]);
             return null;
         }
     }

@@ -19,6 +19,14 @@ public class NoteViewModel extends AndroidViewModel{
 
     }
 
+    public void deleteNoteById(long id){
+        noteRepository.deleteNoteById(id);
+    }
+
+    public Note getNoteById(long id){
+        return noteRepository.getNoteById(id);
+    }
+
     LiveData<List<Note>> getAllNotes(){
         return allNotes;
     }

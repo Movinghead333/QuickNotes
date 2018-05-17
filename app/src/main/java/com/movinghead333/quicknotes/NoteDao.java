@@ -14,14 +14,17 @@ import java.util.List;
 public interface NoteDao {
 
     //no conflict stratgey necessary as there is a unique id for every entry
-    @Insert/*(onConflict = OnConflictStrategy.ABORT)*/
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNote(Note note);
 
-    @Delete
-    public void delete(Note note);
+    @Query("DELETE FROM note_table WHERE id == :id")
+    public void delete(long id);
 
     @Query("DELETE FROM note_table")
     void clearNotes();
+
+    @Query("SELECT * FROM note_table WHERE id == :id")
+    public Note getNoteById(long id);
 
     @Query("SELECT * FROM note_table WHERE title LIKE :noteName LIMIT 1")
     public LiveData<Note> getNoteByTitle(String noteName);
