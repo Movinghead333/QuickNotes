@@ -1,5 +1,6 @@
 package com.movinghead333.quicknotes;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView noteRecyclerView;
     private NoteListAdapter noteListAdapter;
     private RecyclerView.LayoutManager noteRecyclerViewLayoutManager;
+    private final int REQUEST_CODE_ADD_NOTE_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         noteRecyclerViewLayoutManager = new LinearLayoutManager(this);
         noteRecyclerView.setLayoutManager(noteRecyclerViewLayoutManager);
 
-        
+
 
 
         noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
@@ -63,10 +65,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO: startactivity with result
+
                 Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_ADD_NOTE_ACTIVITY);
+
+                //TODO: insert result from AddNoteActivity into database
+                //noteViewModel.insertNote(new Note("note 2", "desc"));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == REQUEST_CODE_ADD_NOTE_ACTIVITY){
+            if(resultCode == Activity.RESULT_OK){
+                //TODO: add entry
+            }else if(resultCode == Activity.RESULT_CANCELED){
+
+            }
+        }
     }
 
     @Override

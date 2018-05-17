@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-    @Database(entities = {Note.class,}, version = 1)
+    @Database(entities = {Note.class,}, version = 2)
     public abstract class NoteDatabase extends RoomDatabase {
 
         private static final String DATABASE_NAME = "note_database";
@@ -19,16 +19,16 @@ import android.support.annotation.NonNull;
             if(INSTANCE == null){
                 synchronized (NoteDatabase.class){
                     if(INSTANCE == null){
-                        INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                NoteDatabase.class, DATABASE_NAME)
-                                .addCallback(sNoteDatabaseCallback)
+             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+        NoteDatabase.class, DATABASE_NAME)
+                .addCallback(sNoteDatabaseCallback)
                                 //.fallbackToDestructiveMigration()
                                 .build();
-                    }
+    }
                 }
-            }
-            return INSTANCE;
-        }
+                        }
+                        return INSTANCE;
+                        }
 
         public abstract NoteDao noteDao();
 
@@ -52,7 +52,11 @@ import android.support.annotation.NonNull;
 
             @Override
             protected Void doInBackground(final Void... params){
+                noteDao.clearNotes();
+
                 Note note = new Note("ÜB", "ingenieurmathematik");
+                noteDao.insertNote(note);
+                note = new Note("note x", "description");
                 noteDao.insertNote(note);
                 return null;
             }
