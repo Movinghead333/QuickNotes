@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == REQUEST_CODE_ADD_NOTE_ACTIVITY){
             if(resultCode == Activity.RESULT_OK){
-                //TODO: add entry
+                Note note = new Note(data.getStringExtra(AddNoteActivity.EXTRA_TITLE),
+                        data.getStringExtra(AddNoteActivity.EXTRA_DESCRIPTION));
+                noteViewModel.insertNote(note);
             }else if(resultCode == Activity.RESULT_CANCELED){
 
             }

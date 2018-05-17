@@ -1,5 +1,6 @@
 package com.movinghead333.quicknotes;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,10 +26,14 @@ public class AddNoteActivity extends AppCompatActivity {
     public void onFinishedButtonPress(View view){
         Intent returnIntent = new Intent();
         String title = titleEditText.getText().toString();
+        if(title.equals("")){
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+        }
         returnIntent.putExtra(EXTRA_TITLE, title);
         String description = descriptionEditText.getText().toString();
         returnIntent.putExtra(EXTRA_DESCRIPTION, description);
-
-
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 }
