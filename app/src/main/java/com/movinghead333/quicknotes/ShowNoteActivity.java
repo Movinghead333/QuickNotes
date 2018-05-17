@@ -1,7 +1,9 @@
 package com.movinghead333.quicknotes;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,8 +40,21 @@ public class ShowNoteActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.item_delete:
-                setResult(Activity.RESULT_FIRST_USER);
-                finish();
+                AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+                adb.setTitle("Soll die aktuelle Notiz gelöscht werden?");
+
+                adb.setIcon(android.R.drawable.ic_dialog_alert);
+
+                adb.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResult(Activity.RESULT_FIRST_USER);
+                        finish();
+                    } });
+                adb.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    } });
+                adb.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -32,6 +32,15 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     public void onFinishedButtonPress(View view){
+        finishEntry();
+    }
+
+    @Override
+    public void onBackPressed(){
+        finishEntry();
+    }
+
+    private void finishEntry(){
         Intent returnIntent = new Intent();
         String title = titleEditText.getText().toString();
         if(title.equals("")){
