@@ -11,7 +11,7 @@ import java.util.List;
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder>{
 
     private List<Note> notes;
-    CustomItemClickListener listener;
+    private CustomItemClickListener listener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView textView;

@@ -10,7 +10,6 @@ public class NoteRepository {
 
     private NoteDao noteDao;
     private LiveData<List<Note>> allNotes;
-    private LiveData<Note> currentNote;
 
     NoteRepository(Application application){
         NoteDatabase db = NoteDatabase.getDatabase(application);
@@ -20,14 +19,6 @@ public class NoteRepository {
 
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
-    }
-
-    public LiveData<Note> getNoteByTitle(String title){
-        return noteDao.getNoteByTitle(title);
-    }
-
-    public Note getNoteById(long id){
-        return noteDao.getNoteById(id);
     }
 
     public void deleteNoteById(long id){

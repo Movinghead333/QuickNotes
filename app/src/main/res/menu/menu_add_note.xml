@@ -4,14 +4,14 @@
 
 
     <item   android:id="@+id/item_edit"
-            android:title="ändern"
+            android:title="@string/edit"
             android:icon="@drawable/edit_icon"
-            app:showAsAction="always"/>
+            app:showAsAction="ifRoom"/>
 
     <item   android:id="@+id/item_delete"
-        android:title="löschen"
+        android:title="@string/delete"
         android:icon="@drawable/delete_icon"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
 
 </menu>

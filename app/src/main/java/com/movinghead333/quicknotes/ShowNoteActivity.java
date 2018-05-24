@@ -42,16 +42,16 @@ public class ShowNoteActivity extends AppCompatActivity {
             case R.id.item_delete:
                 AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-                adb.setTitle("Soll die aktuelle Notiz gelöscht werden?");
+                adb.setTitle(R.string.delete_current_note);
 
                 adb.setIcon(android.R.drawable.ic_dialog_alert);
 
-                adb.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                adb.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         setResult(Activity.RESULT_FIRST_USER);
                         finish();
                     } });
-                adb.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                adb.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     } });
                 adb.show();

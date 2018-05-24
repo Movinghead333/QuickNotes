@@ -23,19 +23,11 @@ public class NoteViewModel extends AndroidViewModel{
         noteRepository.deleteNoteById(id);
     }
 
-    public Note getNoteById(long id){
-        return noteRepository.getNoteById(id);
-    }
-
     LiveData<List<Note>> getAllNotes(){
         return allNotes;
     }
 
     public void insertNote(Note note){
         noteRepository.insertNote(note);
-    }
-
-    public Note getNoteByTitle(String title){
-        return noteRepository.getNoteByTitle(title).getValue();
     }
 }

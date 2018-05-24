@@ -7,22 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public NoteViewModel noteViewModel;
-    private RecyclerView noteRecyclerView;
     private NoteListAdapter noteListAdapter;
-    private RecyclerView.LayoutManager noteRecyclerViewLayoutManager;
     private Note currentNote;
     private final int REQUEST_CODE_ADD_NOTE_ACTIVITY = 1;
     private final int REQUEST_CODE_SHOW_NOTE_ACTIVITY= 2;
@@ -43,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
 
-        noteRecyclerView = (RecyclerView)findViewById(R.id.notes_recyclerview);
+        RecyclerView noteRecyclerView = (RecyclerView)findViewById(R.id.notes_recyclerview);
         //recipeRecyclerView.setHasFixedSize(true);
 
         noteListAdapter = new NoteListAdapter(new CustomItemClickListener() {
@@ -59,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         });
         noteRecyclerView.setAdapter(noteListAdapter);
 
-        noteRecyclerViewLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager noteRecyclerViewLayoutManager = new LinearLayoutManager(this);
         noteRecyclerView.setLayoutManager(noteRecyclerViewLayoutManager);
 
 
@@ -96,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 Note note = new Note(data.getStringExtra(AddNoteActivity.EXTRA_TITLE),
                         data.getStringExtra(AddNoteActivity.EXTRA_DESCRIPTION));
                 noteViewModel.insertNote(note);
-            }else if(resultCode == Activity.RESULT_CANCELED){
+            }/*else if(resultCode == Activity.RESULT_CANCELED){
 
-            }
+            }*/
         }else if(requestCode == REQUEST_CODE_SHOW_NOTE_ACTIVITY){
             if(resultCode == Activity.RESULT_OK){
                 noteViewModel.deleteNoteById(currentNoteId);
